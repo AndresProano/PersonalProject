@@ -1,0 +1,1 @@
+//Logic of the PWA and register of Service Worker

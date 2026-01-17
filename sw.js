@@ -1,0 +1,1 @@
+//Service Worker file: save the cached files and manage the offline functionality
