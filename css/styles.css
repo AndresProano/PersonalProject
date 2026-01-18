@@ -95,7 +95,7 @@ h1 { color: #317EFB; margin-bottom: 0.5rem; }
 /* Removed .kitchen-form (unused). Use .row + .input-group instead. */
 
 .input-group {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
 }
