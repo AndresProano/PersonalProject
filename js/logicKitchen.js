@@ -2,56 +2,85 @@ const ROOM_KEY = 'kitchenItems';
 const itemForm = document.getElementById('itemForm');
 const itemList = document.getElementById('itemList');
 
+function getItems(){
+    const data = localStorage.getItem(ROOM_KEY);
+    return data ? JSON.parse(data) : [];
+}
+
+function saveItems(items){
+    localStorage.setItem(ROOM_KEY, JSON.stringify(items));
+}
+
+function checkThreshold(item) {
+    if (item.qty <= item.threshold) {
+        alert(`Alert: The item "${item.name}" is below or at its threshold level! Current quantity: ${item.qty}`);
+    }
+}
+
 function render() {
     const items = getItems(ROOM_KEY);
     itemList.innerHTML = ''; // Limpiar lista actual
 
     items.forEach((item, index) => {
-        const itemDiv = document.createElement('div');
-        itemDiv.className = 'item-card';
-        itemDiv.innerHTML = `
-            <span>${item.name} - Qty: ${item.qty}</span>
-            <button onclick="updateQty(${index}, 1)">+</button>
-            <button onclick="updateQty(${index}, -1)">-</button>
-            <button onclick="removeItem(${index})">Delete</button>
+        const isLow = item.qty <= item.threshold;
+        const card = document.createElement('div');
+        card.className = 'item-card'; // Clase de tu CSS
+        
+        // Estilo dinámico si el stock es bajo
+        if (isLow) card.style.borderLeft = "4px solid #ff4d4f";
+
+        card.innerHTML = `
+            <div class="item-info">
+                <strong>${item.name}</strong>
+                <span class="badge">${item.category}</span>
+                <small style="display: block; color: #888;">Mínimo: ${item.threshold}</small>
+            </div>
+            <div class="item-actions">
+                <span style="font-weight: bold; margin-right: 10px;">${item.qty}</span>
+                <button class="btn-sm" onclick="updateQty(${index}, 1)">+</button>
+                <button class="btn-sm" onclick="updateQty(${index}, -1)">-</button>
+                <button class="btn-danger btn-sm" onclick="deleteItem(${index})">×</button>
+            </div>
         `;
-        itemList.appendChild(itemDiv);
+        itemList.appendChild(card);
     });
 }
 
 itemForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const items = getItems(ROOM_KEY);
     
     const newItem = {
         name: document.getElementById('name').value,
         qty: parseInt(document.getElementById('qty').value),
-        threshold: parseInt(document.getElementById('threshold').value)
+        threshold: parseInt(document.getElementById('threshold').value),
+        category: document.getElementById('category').value
     };
 
+    const items = getItems();
     items.push(newItem);
-    saveItems(ROOM_KEY, items);
+    saveItems(items);
+
     checkThreshold(newItem); // Notificar si entra con stock bajo
     render();
     itemForm.reset();
 });
 
 window.updateQty = (index, change) => {
-    const items = getItems(ROOM_KEY);
-    items[index].qty += change;
+    const items = getItems();
+    items[index].qty = Math.max(0, items[index].qty + change);
 
-    if (items[index].qty < 0) items[index].qty = 0;
-
-    saveItems(ROOM_KEY, items);
+    saveItems(items);
     checkThreshold(items[index]); // Verificar tras actualización
     render();
 };
 
 window.removeItem = (index) => {
-    const items = getItems(ROOM_KEY);
-    items.splice(index, 1);
-    saveItems(ROOM_KEY, items);
-    render();
+    if (confirm('Are you sure you want to delete this item?')) {
+        const items = getItems();
+        items.splice(index, 1);
+        saveItems(items);
+        render();
+    }
 };
 
 render();
