@@ -1,0 +1,60 @@
+<!-- Entrada de Kitchen-->
+
+<!DOCTYPE html>
+<html lang="en">    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Kitchen Organizer</title>
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="manifest" href="manifest.json">
+        <meta name="theme-color" content="#317EFB">
+    </head>
+    <body>
+        <main>
+            <header>
+                <h1>Kitchen Organizer</h1>
+                <p>Manage your kitchen utilities</p>
+            </header>
+
+            <section class="menu-card">  
+                <form id="itemForm">
+                    <div class="input-group">
+                        <label for="name">Item Name: </label>
+                        <input type="text" id="name" placeholder="e.g. Milk" required>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <label for="quantity">Quantity: </label>
+                            <input type="number" id="quantity" min="1" value="1" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="category">Category: </label>
+                            <select id="category" required>
+                                <option value="" disabled selected>Select category</option>
+                                <option value="Dairy">Dairy</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Meat">Meat</option>
+                                <option value="Beverages">Beverages</option>
+                                <option value="Others">Others</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Item</button>
+                </form>
+            </section>
+
+            <section class="list-section">
+                <h2>Current Stock</h2>
+                <div id="itemList" class="grid-list">
+                    </div>
+            </section>  
+
+            <script src="js/app.js"></script>
+            <script src="js/logicKitchen.js"></script>
+
+        </main>
+        <script src="js/logicKitchen.js"></script>
+    </body>
+</html>
