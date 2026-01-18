@@ -1,4 +1,71 @@
-/* --- TUS ESTILOS ORIGINALES (Mantenidos) --- */
+/* Pantalla de Inicio */
+.home-screen {
+    background: white;
+    padding: 3rem 1rem;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    max-width: 900px; /* Más ancho para permitir la lista horizontal */
+    width: 95%;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    color: #888;
+    margin-bottom: 40px;
+}
+
+/*contenido horizontal*/
+
+.horizontal-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; /* Centra si hay pocos items */
+    gap: 25px;
+    padding: 20px 10px;
+    overflow-x: auto; /* Permite scroll si hay muchos items */
+    scroll-snap-type: x mandatory; /* Efecto de imán al hacer scroll */
+    -webkit-overflow-scrolling: touch;
+}
+
+.menu-card {
+    flex: 0 0 auto; /* Evita que las tarjetas se encojan */
+    scroll-snap-align: center;
+    background-color: #fff;
+    border: 1px solid #eee; /* Borde más fino */
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 160px; /* Un poco más anchas */
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.menu-card img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    filter: grayscale(20%); /* Efecto minimalista */
+    transition: filter 0.3s;
+}
+
+.menu-card:hover img {
+    filter: grayscale(0%);
+}
+
+.menu-card span {
+    font-size: 1rem;
+    padding: 15px 0;
+    color: #444;
+}
+
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
