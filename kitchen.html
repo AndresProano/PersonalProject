@@ -21,25 +21,31 @@
             <section class="item-card">  
                 <form id="itemForm">
                     <div class="input-group">
-                        <label for="name">Item Name: </label>
+                        <label for="name">Item Name:</label>
                         <input type="text" id="name" placeholder="e.g. Milk" required>
                     </div>
+
                     <div class="row">
                         <div class="input-group">
-                            <label for="quantity">Quantity: </label>
-                            <input type="number" id="quantity" min="1" value="1" required>
+                        <label for="qty">Quantity:</label>
+                        <input type="number" id="qty" min="0" value="1" required>
+                        </div>
+                        <div class="input-group">
+                        <label for="threshold">Minimum Threshold:</label>
+                        <input type="number" id="threshold" min="0" value="1" required>
                         </div>
                     </div>
+
                     <div class="input-group">
-                        <label for="category">Category: </label>
+                        <label for="category">Category:</label>
                         <select id="category" required>
-                            <option value="" disabled selected>Select category</option>
-                            <option value="Dairy">Dairy</option>
-                            <option value="Vegetables">Vegetables</option>
-                            <option value="Fruits">Fruits</option>
-                            <option value="Meat">Meat</option>
-                            <option value="Beverages">Beverages</option>
-                            <option value="Others">Others</option>
+                        <option value="" disabled selected>Select category</option>
+                        <option value="Dairy">Dairy</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Meat">Meat</option>
+                        <option value="Beverages">Beverages</option>
+                        <option value="Others">Others</option>
                         </select>
                     </div>
                     <button type="submit" class="btn-primary">Add Item</button>
@@ -48,8 +54,7 @@
 
             <section class="list-section">
                 <h2>Current Stock</h2>
-                <div id="itemList" class="grid-list">
-                    </div>
+                <div id="itemList" class="grid-list"></div>
             </section>  
 
             <script src="js/app.js"></script>
