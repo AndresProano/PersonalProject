@@ -21,10 +21,16 @@ function render() {
     const items = getItems();
     itemList.innerHTML = ''; // Limpiar lista actual
 
+    if (items.length === 0) {
+        itemList.innerHTML = '<p style="color: #999; text-align: center;">No items yet. Add one to get started!</p>';
+        return;
+    }
+
     items.forEach((item, index) => {
         const isLow = item.qty <= item.threshold;
         const card = document.createElement('div');
         card.className = 'item-card'; // Clase de tu CSS
+        card.setAttribute('data-low', isLow);
         
         // Estilo dinámico si el stock es bajo
         if (isLow) card.style.borderLeft = "4px solid #ff4d4f";

@@ -119,20 +119,27 @@ input:focus {
 /* item list layout matching current HTML class 'grid-list' */
 .grid-list {
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
 }
 
 .item-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    background: #fdfdfd;
-    border: 1px solid #eee;
+    padding: 16px;
+    background: linear-gradient(135deg, #fdfdfd 0%, #ffffff 100%);
+    border: 2px solid #eee;
     border-radius: 12px;
-    transition: box-shadow 0.2s;
+    border-left: 4px solid #317EFB; /* Default blue border */
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.item-card[data-low="true"] {
+    border-left-color: #ff4d4f;
+    background: linear-gradient(135deg, #fff2f0 0%, #ffffff 100%);
 }
 
 .item-card:hover {
@@ -148,6 +155,11 @@ input:focus {
     color: #333;
 }
 
+.item-info small {
+    color: #999;
+    font-size: 0.85rem;
+}
+
 .badge {
     background: #eef4ff;
     color: #317EFB;
@@ -155,6 +167,21 @@ input:focus {
     border-radius: 6px;
     font-size: 0.8rem;
     font-weight: bold;
+}
+
+.item-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 16px;
+}
+
+.item-actions span {
+    font-weight: bold;
+    min-width: 40px;
+    text-align: center;
+    color: #333;
+    font-size: 1.1rem;
 }
 
 /* Row helper used in kitchen form */
