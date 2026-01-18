@@ -91,12 +91,8 @@ h1 { color: #317EFB; margin-bottom: 0.5rem; }
 
 /* --- NUEVOS ESTILOS PARA EL FORMULARIO --- */
 
-.kitchen-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin: 20px 0;
-}
+/* form layout helpers */
+/* Removed .kitchen-form (unused). Use .row + .input-group instead. */
 
 .input-group {
     display: grid;
@@ -117,29 +113,11 @@ input:focus {
     border-color: #317EFB;
 }
 
-.btn-add {
-    background-color: #317EFB;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: background 0.2s, transform 0.1s;
-}
-
-.btn-add:hover {
-    background-color: #2665cc;
-}
-
-.btn-add:active {
-    transform: scale(0.98);
-}
 
 /* --- ESTILO PARA LA LISTA DE ÍTEMS (Similar a tus menu-cards) --- */
 
-.item-display-grid {
+/* item list layout matching current HTML class 'grid-list' */
+.grid-list {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -177,4 +155,78 @@ input:focus {
     border-radius: 6px;
     font-size: 0.8rem;
     font-weight: bold;
+}
+
+/* Row helper used in kitchen form */
+.row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+@media (max-width: 480px) {
+    .row { grid-template-columns: 1fr; }
+}
+
+/* --- CONSISTENT MINIMAL BUTTONS (Reusable Patterns) --- */
+
+/* Base button */
+.btn {
+    appearance: none;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    color: #333;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
+}
+.btn:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.btn:active { transform: translateY(1px); }
+
+/* Primary button (alias for existing .btn-add style) */
+.btn-primary,
+.btn-add {
+    background-color: #317EFB;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background 0.2s, transform 0.1s;
+}
+.btn-primary:hover,
+.btn-add:hover { background-color: #2665cc; }
+.btn-primary:active,
+.btn-add:active { transform: scale(0.98); }
+
+/* Secondary variants */
+.btn-danger { border-color: transparent; background: #ff4d4f; color: #fff; }
+.btn-ghost { background: transparent; border-color: #e6e6e6; color: #555; }
+
+/* Small button size */
+.btn-sm { padding: 6px 10px; border-radius: 8px; font-size: 0.9rem; }
+
+/* Minimalist action buttons inside item cards (no class required) */
+.item-card button {
+    appearance: none;
+    border: 1px solid #e6e6e6;
+    background: #fff;
+    color: #333;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.2s, border-color 0.2s;
+    margin-left: 8px;
+}
+.item-card button:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.item-card button:active { transform: translateY(1px); }
+
+/* Accessible focus style */
+:focus-visible {
+    outline: 2px solid #317EFB;
+    outline-offset: 2px;
 }

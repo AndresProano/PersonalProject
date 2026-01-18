@@ -1,8 +1,16 @@
 //Interface logic
 
-const BotonKitchen = document.getElementById("BotonKitchen");
+const buttonKitchen = document.getElementById("buttonKitchen");
 const BotonLiving = document.getElementById("BotonLiving");
 
-BotonKitchen.addEventListener("click", () => {
-    window.location.href = "kitchen.html";
-});
+if (buttonKitchen) {
+    buttonKitchen.addEventListener("click", () => {
+        window.location.href = "kitchen.html";
+    });
+}
+
+if (BotonLiving) {
+    BotonLiving.addEventListener("click", () => {
+        window.location.href = "living.html";
+    });
+}
