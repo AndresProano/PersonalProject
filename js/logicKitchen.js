@@ -18,7 +18,7 @@ function checkThreshold(item) {
 }
 
 function render() {
-    const items = getItems(ROOM_KEY);
+    const items = getItems();
     itemList.innerHTML = ''; // Limpiar lista actual
 
     items.forEach((item, index) => {
@@ -39,7 +39,7 @@ function render() {
                 <span style="font-weight: bold; margin-right: 10px;">${item.qty}</span>
                 <button class="btn-sm" onclick="updateQty(${index}, 1)">+</button>
                 <button class="btn-sm" onclick="updateQty(${index}, -1)">-</button>
-                <button class="btn-danger btn-sm" onclick="deleteItem(${index})">×</button>
+                <button class="btn-danger btn-sm" onclick="removeItem(${index})">×</button>
             </div>
         `;
         itemList.appendChild(card);

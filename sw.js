@@ -16,7 +16,9 @@ const assets = [
     'index.html',
     'css/styles.css',
     'js/app.js',
-    'js/ui.js',
+    'js/logicIndex.js',
+    'js/logicKitchen.js',
+    'js/storage.js',
     'manifest.json',
 ]
 
