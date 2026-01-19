@@ -1,7 +1,7 @@
 //Interface logic
 
 const buttonKitchen = document.getElementById("buttonKitchen");
-const BotonLiving = document.getElementById("BotonLiving");
+const buttonMoney = document.getElementById("buttonMoney");
 
 if (buttonKitchen) {
     buttonKitchen.addEventListener("click", () => {
@@ -9,8 +9,8 @@ if (buttonKitchen) {
     });
 }
 
-if (BotonLiving) {
-    BotonLiving.addEventListener("click", () => {
-        window.location.href = "living.html";
+if (buttonMoney) {
+    buttonMoney.addEventListener("click", () => {
+        window.location.href = "money.html";
     });
 }
