@@ -26,7 +26,7 @@
             <div class="forms-container">
                 <section class="card">  
                     <h3>Add New Bank/Account</h3>
-                    <form id="itemBank">
+                    <form id="formBank">
                         <div class="input-group">
                             <label for="Bank">Bank Name:</label>
                             <input type="text" id="Bank" placeholder="e.g. Cash, Bank of America" required>
@@ -34,7 +34,7 @@
 
                         <div class="input-group">
                             <label for="money">Total Money:</label>
-                            <input type="number" id="money" min="0" value="1" required>
+                            <input type="number" step="0.01" id="money" min="0" value="1" required>
                         </div>
 
                         <button type="submit" class="btn-primary">Add Account</button>
@@ -43,14 +43,14 @@
 
                 <section class="card">
                     <h3>Add New Expense</h3>
-                    <form id="itemExpenses">
+                    <form id="formExpenses">
                         <div class="input-group">
                             <label for="Expense's Name">Expense's Name:</label>
                             <input type="text" id="expenseName" placeholder="e.g. Groceries" required>
                         </div>
                         <div class="input-group">
                             <label for="expenseAmount">Amount:</label>
-                            <input type="number" id="expenseAmount" min="0" value="1" required>
+                            <input type="number" step="0.01" id="expenseAmount" min="0" value="1" required>
                         </div>
                         <div class="input-group">
                             <label for="expenseAccount">From Account:</label>
