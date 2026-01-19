@@ -9,6 +9,9 @@ function getItems(){
 
 function saveItems(items){
     localStorage.setItem(ROOM_KEY, JSON.stringify(items));
+    if (accessToken) {
+        syncToDrive(); // Sincronizar tras cada guardado
+    }
 }
 
 function checkThreshold(item) {

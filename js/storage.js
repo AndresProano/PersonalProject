@@ -10,6 +10,5 @@ function saveItems(roomKey, items) {
 function checkThreshold(item) {
     if (item.qty <= item.threshold) {
         alert(`Low stock alert: ${item.name} (Only ${item.qty} left!)`);
-        // Aquí podrías integrar Web Notifications API más adelante
     }
 }

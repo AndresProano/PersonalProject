@@ -13,6 +13,9 @@ function getBank(){
 
 function saveBank(money){
     localStorage.setItem(ROOM_KEY, JSON.stringify(money));
+    if (accessToken) {
+        syncToDrive(); // Sincronizar tras cada guardado
+    }
 }
 
 function getExpenses(){
@@ -22,6 +25,9 @@ function getExpenses(){
 
 function saveExpenses(items){
     localStorage.setItem('expenseItems', JSON.stringify(items));
+    if (accessToken) {
+        syncToDrive(); // Sincronizar tras cada guardado
+    }
 }
 
 function updateDashboard() {
