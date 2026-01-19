@@ -1,9 +1,13 @@
-const ROOM_KEY = 'moneyItems';
-const itemBank = document.getElementById('itemBank');
-const itemExpenses = document.getElementById('itemExpenses');
+const BANK_KEY = 'moneyItems';
+const EXPENSE_KEY = 'expenseItems';
+
+const bankListContainer = document.getElementById('bankListContainer');
+const expenseListContainer = document.getElementById('expenseList');
+const accountSelect = document.getElementById('expenseAccount');
+const totalBalanceDisplay = document.getElementById('totalBalance');
 
 function getBank(){
-    const items = localStorage.getItem(ROOM_KEY);
+    const items = localStorage.getItem(BANK_KEY);
     return items ? JSON.parse(items) : [];
 }
 
@@ -20,177 +24,140 @@ function saveExpenses(items){
     localStorage.setItem('expenseItems', JSON.stringify(items));
 }
 
-function checkThreshold(money) {
-    if (money.amount <= 30) {
-        alert(`Alert: The bank "${money.name}" has low balance! Current amount: ${money.amount}`);
-    }
+function updateDashboard() {
+    const banks = getBank();
+    const total = banks.reduce((sum, bank) => sum + bank.amount, 0);
+    totalBalanceDisplay.innerText = `$${total.toLocaleString()}`;
+    
+    accountSelect.innerHTML = '<option value="">Select an account...</option>';
+    banks.forEach(bank => {
+        const option = document.createElement('option');
+        option.value = bank.name;
+        option.textContent = `${bank.name} ($${bank.amount})`;
+        accountSelect.appendChild(option);
+    });
 }
 
-function renderBank(){
-    const moneyItems = getBank();
-    itemBank.innerHTML = ''; // Limpiar lista actual
+function renderBank() {
+    const banks = getBank();
+    bankListContainer.innerHTML = '';
 
-    if (moneyItems.length === 0) {
-        itemBank.innerHTML = '<p style="color: #999; text-align: center;">No money items yet. Add one to get started!</p>';
-        return;
-    }
-
-    moneyItems.forEach((money, index) => {
-        const isLow = money.amount <= 30;
+    banks.forEach((bank, index) => {
+        const isLow = bank.amount <= 30;
         const card = document.createElement('div');
         card.className = 'item-card';
-        card.setAttribute('data-low', isLow);
-
         if (isLow) card.style.borderLeft = "4px solid #ff4d4f";
 
         card.innerHTML = `
             <div class="item-info">
-                <strong>${money.name}</strong>
-                <small style="display: block; color: #888;">Amount: $${money.amount}</small>
+                <strong>${bank.name}</strong>
+                <p>$${bank.amount}</p>
             </div>
             <div class="item-actions">
-                <button class="btn-sm" onclick="updateMoney(${index}, 50)">+ $50</button>
-                <button class="btn-sm" onclick="updateMoney(${index}, -50)">- $50</button>
-                <button class="btn-danger btn-sm" onclick="removeMoney(${index})">×</button>
+                <button class="btn-sm" onclick="changeBalance(${index}, 10)">+$10</button>
+                <button class="btn-danger btn-sm" onclick="removeBank(${index})">×</button>
             </div>
         `;
-        itemBank.appendChild(card);
+        bankListContainer.appendChild(card);
     });
+    updateDashboard();
 }
 
-itemBank.addEventListener('submit', (e) => {
+function renderExpenses() {
+    const expenses = getExpenses();
+    expenseListContainer.innerHTML = '';
+
+    expenses.forEach((expense, index) => {
+        const card = document.createElement('div');
+        card.className = 'item-card expense-item';
+        card.innerHTML = `
+            <div class="item-info">
+                <strong>${expense.name}</strong>
+                <small>${expense.accountId} | ${new Date().toLocaleDateString()}</small>
+            </div>
+            <div class="item-actions">
+                <span class="expense-amount">-$${expense.amount}</span>
+                <button class="btn-danger btn-sm" onclick="removeExpense(${index})">×</button>
+            </div>
+        `;
+        expenseListContainer.appendChild(card);
+    });
+}
+document.getElementById('formBank').addEventListener('submit', (e) => {
     e.preventDefault();
-
-    const newMoney = {
-        name: document.getElementById('Bank').value,
-        amount: parseInt(document.getElementById('money').value)
-    };
-
-    const moneyItems = getBank();
-    moneyItems.push(newMoney);
-    saveBank(moneyItems);
-    checkThreshold(newMoney);
+    const banks = getBank();
+    banks.push({
+        name: document.getElementById('bankName').value,
+        amount: parseInt(document.getElementById('bankAmount').value)
+    });
+    saveBank(banks);
     renderBank();
-    itemBank.reset();
+    e.target.reset();
 });
 
-window.updateMoney = function(index, change) {
-    const moneyItems = getBank();
-    moneyItems[index].amount += change;
+document.getElementById('formExpenses').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const amount = parseInt(document.getElementById('expenseAmount').value);
+    const accountName = accountSelect.value;
+    
+    let banks = getBank();
+    const accIndex = banks.findIndex(b => b.name === accountName);
 
-    saveBank(moneyItems);
+    if (accIndex !== -1 && banks[accIndex].amount >= amount) {
+        banks[accIndex].amount -= amount;
+        saveBank(banks);
+
+        const expenses = getExpenses();
+        expenses.push({
+            name: document.getElementById('expenseName').value,
+            amount: amount,
+            accountId: accountName
+        });
+        saveExpenses(expenses);
+
+        renderBank();
+        renderExpenses();
+        e.target.reset();
+    } else {
+        alert("Fondos insuficientes o cuenta no seleccionada");
+    }
+});
+
+
+window.changeBalance = (index, change) => {
+    const banks = getBank();
+    banks[index].amount += change;
+    saveBank(banks);
     renderBank();
 };
 
-window.removeMoney = function(index) {
-    if (confirm('Are you sure you want to remove this money item?')){
-        const moneyItems = getBank();
-        moneyItems.splice(index, 1);
-        saveBank(moneyItems);
+window.removeBank = (index) => {
+    if(confirm("Delete this account?")) {
+        const banks = getBank();
+        banks.splice(index, 1);
+        saveBank(banks);
         renderBank();
     }
 };
 
-renderBank();
+window.removeExpense = (index) => {
+    const expenses = getExpenses();
+    const banks = getBank();
+    const expense = expenses[index];
 
-function renderExpenses(){
-    const expenseItems = getExpenses();
-    itemExpenses.innerHTML = ''; // Limpiar lista actual
-
-    if (expenseItems.length === 0) {
-        itemExpenses.innerHTML = '<p style="color: #999; text-align: center;">No expenses yet. Add one to get started!</p>';
-        return;
+    const accIndex = banks.findIndex(b => b.name === expense.accountId);
+    if(accIndex !== -1) {
+        banks[accIndex].amount += expense.amount;
+        saveBank(banks);
     }
 
-    expenseItems.forEach((expense, index) => {
-        const card = document.createElement('div');
-        card.className = 'item-card';
-
-        card.innerHTML = `
-            <div class="item-info">
-                <strong>${expense.name}</strong>
-                <small style="display: block; color: #888;">Amount: $${expense.amount}</small>
-            </div>
-            <div class="item-actions">
-                <button class="btn-danger btn-sm" onclick="removeExpense(${index})">×</button>
-            </div>
-        `;
-        itemExpenses.appendChild(card);
-    });
-}
-
-itemExpenses.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const newExpense = {
-        name: document.getElementById('expenseName').value,
-        amount: parseInt(document.getElementById('expenseAmount').value),
-        accountId: document.getElementById('expenseAccount').value
-    };
-
-    let accountId = getBank();
-
-    const accountIndex = accountId.findIndex(acc => acc.name === newExpense.accountId);
-
-    if (accountIndex !== -1) {
-
-        if (accountId[accountIndex].amount < newExpense.amount) {
-            alert('Insufficient funds in the selected account!');
-            return;
-        }
-
-        accountId[accountIndex].amount -= newExpense.amount;
-
-        saveBank(accountId);
-
-        const expenseItems = getExpenses();
-        expenseItems.push(newExpense);
-        saveExpenses(expenseItems);
-        renderExpenses();
-
-        if(typeof updateMoney === 'function'){
-            renderBank();
-        }
-        
-        itemExpenses.reset();
-    } else {
-        alert('Selected account not found!');
-    }
-});
-
-window.updateExpense = function(index, change) {
-    const expenseItems = getExpenses();
-    expenseItems[index].amount += change;
-
-    saveExpenses(expenseItems);
+    expenses.splice(index, 1);
+    saveExpenses(expenses);
+    renderBank();
     renderExpenses();
-};  
-
-window.removeExpense= function(index) {
-    if (confirm('Are you sure you want to delete this expense?')) {
-
-        const expenses = getExpenses();
-        const bank = getBank();
-
-        const expenseToRemove = expenses[index];
-
-        const accountIndex = bank.findIndex(acc => acc.name === expenseToRemove.accountId);
-
-        if (accountIndex !== -1) {
-            bank[accountIndex].amount += expenseToRemove.amount;
-            saveBank(bank);
-            renderBank();
-        }else {
-            alert('Associated account not found!');
-        }
-    
-        expenses.splice(index, 1);
-        saveExpenses(expenses);
-        renderExpenses();
-    }   
 };
 
+renderBank();
 renderExpenses();
-
 
 

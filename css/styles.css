@@ -257,3 +257,29 @@ input:focus {
     outline: 2px solid #317EFB;
     outline-offset: 2px;
 }
+
+/* Money styles */
+
+.forms-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #eee;
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 10px;
+}

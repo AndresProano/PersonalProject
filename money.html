@@ -16,49 +16,54 @@
                 <button class="btn btn-ghost" onclick="window.location.href='index.html'" style="margin-bottom: 10px;">← Back</button>
                 <h1>Money Organizer</h1>
                 <p>Manage your money effectively</p>
+                <div class="balance-card">
+                <small>Total Balance</small>
+                <h2 id="totalBalance">$0.00</h2>
+            </div>
             </header>
+            
+            <div class="forms-container">
+                <section class="card">  
+                    <h3>Add New Bank/Account</h3>
+                    <form id="itemBank">
+                        <div class="input-group">
+                            <label for="Bank">Bank Name:</label>
+                            <input type="text" id="Bank" placeholder="e.g. Cash, Bank of America" required>
+                        </div>
 
-            <section class="item-card">  
+                        <div class="input-group">
+                            <label for="money">Total Money:</label>
+                            <input type="number" id="money" min="0" value="1" required>
+                        </div>
 
-                <form id="itemBank">
-                    <div class="input-group">
-                        <label for="Bank">Item Name:</label>
-                        <input type="text" id="Bank" placeholder="e.g. Bank of America" required>
-                    </div>
+                        <button type="submit" class="btn-primary">Add Account</button>
+                    </form>
+                </section>
 
-                    <div class="input-group">
-                        <label for="money">Total Money:</label>
-                        <input type="number" id="money" min="0" value="1" required>
-                    </div>
+                <section class="card">
+                    <h3>Add New Expense</h3>
+                    <form id="itemExpenses">
+                        <div class="input-group">
+                            <label for="Expense's Name">Expense's Name:</label>
+                            <input type="text" id="expenseName" placeholder="e.g. Groceries" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="expenseAmount">Amount:</label>
+                            <input type="number" id="expenseAmount" min="0" value="1" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="expenseAccount">From Account:</label>
+                            <input type="text" id="expenseAccount" placeholder="e.g. Bank of America" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Add Expense</button>
+                    </form>
 
-                    <button type="submit" class="btn-primary">Add Money</button>
-                </form>
-
-                <form id="itemExpenses">
-                    <div class="input-group">
-                        <label for="Expense's Name">Expense's Name:</label>
-                        <input type="text" id="expenseName" placeholder="e.g. Groceries" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="expenseAmount">Expense Amount:</label>
-                        <input type="number" id="expenseAmount" min="0" value="1" required>
-                    </div>
-                    <div>   
-                        <label for="expenseDate">Expense Date:</label>
-                        <input type="date" id="expenseDate" required>
-                    </div>
-                    <div>
-                        <label for="expenseAccount">From Account:</label>
-                        <input type="text" id="expenseAccount" placeholder="e.g. Bank of America" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Add Expense</button>
-                </form>
-
-            </section>
+                </section>
+            </div>
 
             <section class="list-section">
-                <h2>Current Money</h2>
-                <div id="itemList" class="grid-list"></div>
+                <h2>Accounts</h2>
+                <div id="bankListContainer" class="grid-list"></div>
                 <h2>Expenses</h2>
                 <div id="expenseList" class="grid-list"></div>
             </section>  
