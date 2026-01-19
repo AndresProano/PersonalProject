@@ -84,3 +84,14 @@ async function syncFromDrive() {
         renderExpenses();
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    initDriveAuth();
+
+    const driveLogin = document.getElementById('driveLogin');
+    if (driveLogin) {
+        driveLogin.addEventListener('click', () => {
+            tokenClient.requestAccessToken();
+        });
+    }
+});

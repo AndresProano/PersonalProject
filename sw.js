@@ -1,16 +1,5 @@
 //Service Worker file: save the cached files and manage the offline functionality
 
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            document.getElementById('status').textContent = 'Service Worker Registered';
-        }).catch(error => {
-            console.log('ServiceWorker registration failed: ', error);
-        });
-    });
-}
-
 const CACHE_NAME = 'my-pwa-cache-v1';
 const assets = [
     'index.html',
@@ -18,6 +7,7 @@ const assets = [
     'js/app.js',
     'js/logicIndex.js',
     'js/logicKitchen.js',
+    'js/logicMoney.js',
     'js/storage.js',
     'manifest.json',
 ]

@@ -9,7 +9,6 @@
         <link rel="stylesheet" href="css/styles.css">
         <link rel="manifest" href="manifest.json">
         <meta name="theme-color" content="#317EFB">
-        <script src="https://accounts.google.com/gsi/client" async defer></script>
     </head>
     <body>
         <main class="home-screen">
@@ -27,7 +26,10 @@
                     <span>Money</span>
                 </button>
             </nav>
+            <button id="driveLogin" class="btn btn-primary">Login to Drive</button>
         </main>
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
+        <script src="js/drive-sync.js"></script>
         <script src="js/logicIndex.js"></script>
         <script src="js/app.js"></script>
     </body>
