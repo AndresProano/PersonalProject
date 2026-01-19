@@ -12,19 +12,19 @@ function getBank(){
 }
 
 function saveBank(money){
-    localStorage.setItem(ROOM_KEY, JSON.stringify(money));
+    localStorage.setItem(BANK_KEY, JSON.stringify(money));
     if (accessToken) {
         syncToDrive(); // Sincronizar tras cada guardado
     }
 }
 
 function getExpenses(){
-    const data = localStorage.getItem('expenseItems');
+    const data = localStorage.getItem(EXPENSE_KEY);
     return data ? JSON.parse(data) : [];
 }
 
 function saveExpenses(items){
-    localStorage.setItem('expenseItems', JSON.stringify(items));
+    localStorage.setItem(EXPENSE_KEY, JSON.stringify(items));
     if (accessToken) {
         syncToDrive(); // Sincronizar tras cada guardado
     }

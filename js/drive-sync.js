@@ -6,6 +6,12 @@ let accessToken = localStorage.getItem('drive_token') || null;
 let tokenClient;
 
 function initDriveAuth() {
+
+    if (typeof google === 'undefined') {
+        console.warn("Google library not loaded yet. Waiting...");
+        return;
+    }
+
     tokenClient = google.accounts.oauth2.initTokenClient({
         client_id: CLIENT_ID,
         scope: SCOPES,
@@ -13,9 +19,20 @@ function initDriveAuth() {
             accessToken = tokenResponse.access_token;
             localStorage.setItem('drive_token', accessToken);
             alert("Conectado a Google Drive");
+            disableDriveButton();
             syncFromDrive(); 
         },
     });
+}
+
+function disableDriveButton() {
+    const driveLogin = document.getElementById('driveLogin');
+    if (driveLogin) {
+        driveLogin.disabled = true;
+        driveLogin.textContent = "Conectado a Drive ✓";
+        driveLogin.style.opacity = "0.6";
+        driveLogin.style.cursor = "not-allowed";
+    }
 }
 
 async function syncToDrive() {
@@ -49,12 +66,20 @@ async function syncToDrive() {
     form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
     form.append('file', file);
 
-    await fetch(url, {
-        method: method,
-        headers: { 'Authorization': `Bearer ${accessToken}` },
-        body: form
-    });
-    console.log("Sincronizado con Drive correctamente");
+    try {
+        const response = await fetch(url, {
+            method: method,
+            headers: { 'Authorization': `Bearer ${accessToken}` },
+            body: form
+        });
+        if (response.ok) {
+            console.log("Sincronizado con Drive correctamente");
+        } else {
+            console.error("Error sincronizando:", response.status);
+        }
+    } catch (error) {
+        console.error("Error en syncToDrive:", error);
+    }
 }
 
 async function findFileId() {
@@ -90,6 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const driveLogin = document.getElementById('driveLogin');
     if (driveLogin) {
+        if (accessToken) {
+            disableDriveButton();
+        }
+        
         driveLogin.addEventListener('click', () => {
             tokenClient.requestAccessToken();
         });
